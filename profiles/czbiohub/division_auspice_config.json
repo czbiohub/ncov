@@ -17,11 +17,6 @@
       "type": "categorical"
     },
     {
-      "key": "county",
-      "title": "County",
-      "type": "categorical"
-    },
-    {
       "key": "location",
       "title": "Location",
       "type": "categorical"
@@ -101,21 +96,19 @@
     }
   ],
   "geo_resolutions": [
-    "county",
     "location",
     "division",
     "country",
     "region"
   ],
   "display_defaults": {
-    "color_by": "county",
+    "color_by": "division",
     "distance_measure": "div",
-    "geo_resolution": "location",
+    "geo_resolution": "division",
     "map_triplicate": false,
     "branch_label": "clade"
   },
   "filters": [
-    "county",
     "recency",
     "clade_membership",
     "region",
