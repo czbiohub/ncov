@@ -37,7 +37,7 @@ def get_CA_lab(row):
         elif submitting_lab=='Data Science':
             # These genomes are CZB genomes that were submitted by collaborators at UC Davis
             # It is unclear who the submitting lab should be, so we set it to unknown
-            return '?'
+            return 'Chan-Zuckerberg Biohub'
         elif submitting_lab=='Molecular Infectious Disease':
             # The author field indicates this is from the Andersen lab, though probably not submitted by them
             return 'Andersen lab at Scripps Research'
