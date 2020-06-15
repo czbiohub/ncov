@@ -24,6 +24,11 @@
       "type": "categorical"
     },
     {
+      "key": "CA_lab",
+      "title": "CA Submitting Lab",
+      "type": "categorical"
+    },
+    {
       "key": "location",
       "title": "Location",
       "type": "categorical"
