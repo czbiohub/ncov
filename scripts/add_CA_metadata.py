@@ -27,7 +27,23 @@ def get_county(row):
 def get_CA_lab(row):
     division = row['division']
     if division.lower()=='california':
-        submitting_lab = row['submitting_lab']
+        submitting_lab = row['submitting_lab'].strip()
+        if 'Chiu Laboratory' in submitting_lab:
+            # The Chiu Lab has submitted under multiple names
+            return 'Chiu Laboratory, University of California, San Francisco'
+        elif 'Andersen' in submitting_lab:
+            # The Andersen lab has submitted under multiple names
+            return 'Andersen lab at Scripps Research'
+        elif submitting_lab=='Data Science':
+            # These genomes are CZB genomes that were submitted by collaborators at UC Davis
+            # It is unclear who the submitting lab should be, so we set it to unknown
+            return '?'
+        elif submitting_lab=='Molecular Infectious Disease':
+            # The author field indicates this is from the Andersen lab, though probably not submitted by them
+            return 'Andersen lab at Scripps Research'
+        elif submitting_lab=='Pathogen Discovery':
+            # The CDC has submitted under multiple names
+            return 'Pathogen Discovery, Respiratory Viruses Branch, Division of Viral Diseases, Centers for Disease Control and Prevention'
         return submitting_lab
     return '?'
 
