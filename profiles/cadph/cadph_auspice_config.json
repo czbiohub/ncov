@@ -123,6 +123,7 @@
   },
   "filters": [
     "county",
+    "CA_lab",
     "recency",
     "clade_membership",
     "region",
