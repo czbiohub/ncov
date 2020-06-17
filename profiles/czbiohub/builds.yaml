@@ -144,7 +144,7 @@ subsampling:
     # focal samples for country
     country:
       group_by: "division year month"
-      seq_per_group: 10000
+      seq_per_group: 500
       exclude: "--exclude-where 'region!={region}' 'country!={country}'"
     # contextual samples from country's region
     region:
