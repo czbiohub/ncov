@@ -22,6 +22,16 @@
       "type": "categorical"
     },
     {
+      "key": "CA_region",
+      "title": "CA region",
+      "type": "categorical"
+    },
+    {
+      "key": "CA_lab",
+      "title": "CA submitting lab",
+      "type": "categorical"
+    },
+    {
       "key": "location",
       "title": "Location",
       "type": "categorical"
@@ -116,6 +126,8 @@
   },
   "filters": [
     "county",
+    "CA_region",
+    "CA_lab",
     "recency",
     "clade_membership",
     "region",
