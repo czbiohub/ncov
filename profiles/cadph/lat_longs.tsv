@@ -1,4 +1,4 @@
-county	Del Norte	41.817	-124.045428
+county	Del Norte	41.7076	-123.9660
 county	Siskiyou	41.5991	-122.68414399999999
 county	Modoc	41.5542	-120.71408999999998
 county	Shasta	40.7213	-122.12421770000002
@@ -32,12 +32,12 @@ county	Tuolumne	37.9858	-120.22455500000001
 county	San Joaquin	37.9262	-121.27136850000001
 county	Contra Costa	37.8982	-122.03031000000001
 county	San Francisco	37.774	-122.52988049999999
-county	Alameda	37.7325	-122.10531
-county	Stanislaus	37.6263	-120.9648514
-county	Mariposa	37.5644	-119.97631799999999
-county	San Mateo	37.483	-122.33617179999999
-county	Merced	37.3076	-120.6469255
-county	Santa Clara	37.215	-121.72931000000001
+county	Alameda	37.6017	-121.7195
+county	Stanislaus	37.5091	-120.9876
+county	Mariposa	37.4894	-119.9679
+county	San Mateo	37.4337	-122.4014
+county	Santa Clara	37.3337	-121.8907
+county	Merced	37.2010	-120.7120
 county	Madera	37.1861	-119.79881499999999
 county	Santa Cruz	37.0448	-121.98232620000002
 county	San Benito	36.7725	-121.334255
