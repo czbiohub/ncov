@@ -119,6 +119,7 @@ subsampling:
       group_by: "year month"
       seq_per_group: 10000
       exclude: "--exclude-where 'division!={division}' 'country!={country}' 'region!={region}'"
+      include: "--include-where 'division==Grand Princess Cruise Ship'"
     country:
       group_by: "division year month"
       seq_per_group: 20
