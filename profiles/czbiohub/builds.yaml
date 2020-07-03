@@ -6,7 +6,7 @@
 # in the geo_hierarchy to define region, country, division, etc
 builds:
   california-global:
-    subsampling_scheme: czb-division
+    subsampling_scheme: czb-california
     geographic_scale: division
     division: California
     region: North America
@@ -14,7 +14,7 @@ builds:
     auspice_config: "profiles/czbiohub/ca_auspice_config.json"
     title: "SARS-CoV-2 build: California with global context"
   california-only:
-    subsampling_scheme: czb-division-only
+    subsampling_scheme: czb-division-only-california
     geographic_scale: division
     division: California
     region: North America
@@ -114,7 +114,7 @@ files:
 
 # Subsampling logic
 subsampling:
-  czb-division:
+  czb-california:
     division:
       group_by: "year month"
       seq_per_group: 10000
@@ -140,7 +140,33 @@ subsampling:
       exclude: "--exclude-where 'region={region}'"
       priorities:
         type: "proximity"
+        focus: "division" 
+  czb-division:
+    division:
+      group_by: "year month"
+      seq_per_group: 10000
+      exclude: "--exclude-where 'division!={division}' 'country!={country}' 'region!={region}'"      
+    country:
+      group_by: "division year month"
+      seq_per_group: 20
+      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division={division}'"
+      priorities:
+        type: "proximity"
         focus: "division"
+    region:
+      group_by: "country year month"
+      seq_per_group: 10
+      exclude: "--exclude-where 'region!={region}' 'country={country}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+    global:
+      group_by: "country year month"
+      seq_per_group: 5
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "division"       
   czb-country:
     # focal samples for country
     country:
@@ -190,6 +216,33 @@ subsampling:
       priorities:
         type: "proximity"
         focus: "division"
+  czb-division-only-california:
+    division:
+      group_by: "year month"
+      seq_per_group: 10000
+      exclude: "--exclude-where 'division!={division}' 'country!={country}' 'region!={region}'"
+      include: "--include-where 'division==Grand Princess Cruise Ship'"      
+    country:
+      group_by: "division year month"
+      seq_per_group: 1
+      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division={division}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+    region:
+      group_by: "country year month"
+      seq_per_group: 1
+      exclude: "--exclude-where 'region!={region}' 'country={country}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+    global:
+      group_by: "country year month"
+      seq_per_group: 1
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "division"        
 
 # if different exposure traits should be used for some builds, specify here
 # otherwise the default exposure in config/config.yaml will used
