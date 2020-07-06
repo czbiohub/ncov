@@ -5,25 +5,15 @@
 # geographic scale the build focuses on. Together name and scale serve a look-up
 # in the geo_hierarchy to define region, country, division, etc
 builds:
-  california-global:
+  california:
     subsampling_scheme: czb-california
-    geographic_scale: division
     division: California
     region: North America
     country: USA
     auspice_config: "profiles/czbiohub/ca_auspice_config.json"
     title: "SARS-CoV-2 build: California with global context"
-  california-only:
-    subsampling_scheme: czb-division-only-california
-    geographic_scale: division
-    division: California
-    region: North America
-    country: USA
-    auspice_config: "profiles/czbiohub/ca_auspice_config.json"
-    title: "SARS-CoV-2 build: California without global context"
   minnesota:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Minnesota
     region: North America
     country: USA
@@ -31,7 +21,6 @@ builds:
     title: "SARS-CoV-2 build: Minnesota"
   washington:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Washington
     region: North America
     country: USA
@@ -39,7 +28,6 @@ builds:
     title: "SARS-CoV-2 build: Washington"
   new-york:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: New York
     region: North America
     country: USA
@@ -47,7 +35,6 @@ builds:
     title: "SARS-CoV-2 build: New York"
   hong-kong:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Hong Kong
     region: Asia
     country: Hong Kong
@@ -55,7 +42,6 @@ builds:
     title: "SARS-CoV-2 build: Hong Kong"
   guangdong:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Guangdong
     region: Asia
     country: China
@@ -63,7 +49,6 @@ builds:
     title: "SARS-CoV-2 build: Guangdong"
   shanghai:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Shanghai
     region: Asia
     country: China
@@ -71,7 +56,6 @@ builds:
     title: "SARS-CoV-2 build: Shanghai"
   hubei:
     subsampling_scheme: czb-division
-    geographic_scale: division
     division: Hubei
     region: Asia
     country: China
@@ -79,28 +63,24 @@ builds:
     title: "SARS-CoV-2 build: Hubei"
   japan:
     subsampling_scheme: czb-country
-    geographic_scale: country
     region: Asia
     country: Japan
     auspice_config: "profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Japan"
   italy:
     subsampling_scheme: czb-country
-    geographic_scale: country
     region: Europe
     country: Italy
     auspice_config: "profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Italy"
   united-kingdom:
     subsampling_scheme: czb-country
-    geographic_scale: country
     region: Europe
     country: United Kingdom
     auspice_config: "profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: United Kingdom"
   iceland:
     subsampling_scheme: czb-country
-    geographic_scale: country
     region: Europe
     country: Iceland
     auspice_config: "profiles/czbiohub/division_auspice_config.json"
@@ -190,60 +170,7 @@ subsampling:
       priorities:
         type: "proximity"
         focus: "country"
-  czb-division-only:
-    division:
-      group_by: "year month"
-      seq_per_group: 10000
-      exclude: "--exclude-where 'division!={division}' 'country!={country}' 'region!={region}'"
-    country:
-      group_by: "division year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division={division}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    region:
-      group_by: "country year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region!={region}' 'country={country}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    global:
-      group_by: "country year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region={region}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-  czb-division-only-california:
-    division:
-      group_by: "year month"
-      seq_per_group: 10000
-      exclude: "--exclude-where 'division!={division}' 'country!={country}' 'region!={region}'"
-      include: "--include-where 'division==Grand Princess Cruise Ship'"      
-    country:
-      group_by: "division year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division={division}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    region:
-      group_by: "country year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region!={region}' 'country={country}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    global:
-      group_by: "country year month"
-      seq_per_group: 1
-      exclude: "--exclude-where 'region={region}'"
-      priorities:
-        type: "proximity"
-        focus: "division"        
-
+  
 # if different exposure traits should be used for some builds, specify here
 # otherwise the default exposure in config/config.yaml will used
 exposure:
