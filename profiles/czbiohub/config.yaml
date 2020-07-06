@@ -1,5 +1,5 @@
 configfile:
-  - config/config.yaml
+  - defaults/parameters.yaml
   - profiles/czbiohub/builds.yaml
 
 cores: 48
