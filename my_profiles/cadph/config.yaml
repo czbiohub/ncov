@@ -1,0 +1,11 @@
+configfile:
+  - defaults/parameters.yaml
+  - my_profiles/cadph/builds.yaml
+
+cores: 48
+keep-going: True
+printshellcmds: True
+reason: True
+restart-times: 1
+stats: stats.json
+set-threads: tree=48
