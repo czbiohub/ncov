@@ -10,86 +10,86 @@ builds:
     division: California
     region: North America
     country: USA
-    auspice_config: "profiles/czbiohub/ca_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/ca_auspice_config.json"
     title: "SARS-CoV-2 build: California with global context"
   minnesota:
     subsampling_scheme: czb-division
     division: Minnesota
     region: North America
     country: USA
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Minnesota"
   washington:
     subsampling_scheme: czb-division
     division: Washington
     region: North America
     country: USA
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Washington"
   new-york:
     subsampling_scheme: czb-division
     division: New York
     region: North America
     country: USA
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: New York"
   hong-kong:
     subsampling_scheme: czb-division
     division: Hong Kong
     region: Asia
     country: Hong Kong
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Hong Kong"
   guangdong:
     subsampling_scheme: czb-division
     division: Guangdong
     region: Asia
     country: China
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Guangdong"
   shanghai:
     subsampling_scheme: czb-division
     division: Shanghai
     region: Asia
     country: China
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Shanghai"
   hubei:
     subsampling_scheme: czb-division
     division: Hubei
     region: Asia
     country: China
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Hubei"
   japan:
     subsampling_scheme: czb-country
     region: Asia
     country: Japan
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Japan"
   italy:
     subsampling_scheme: czb-country
     region: Europe
     country: Italy
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Italy"
   united-kingdom:
     subsampling_scheme: czb-country
     region: Europe
     country: United Kingdom
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: United Kingdom"
   iceland:
     subsampling_scheme: czb-country
     region: Europe
     country: Iceland
-    auspice_config: "profiles/czbiohub/division_auspice_config.json"
+    auspice_config: "my_profiles/czbiohub/division_auspice_config.json"
     title: "SARS-CoV-2 build: Iceland"   
 
     
 files:
-  lat_longs: "profiles/czbiohub/lat_longs.tsv"
-  ordering: "profiles/czbiohub/ordering.tsv"
+  lat_longs: "my_profiles/czbiohub/lat_longs.tsv"
+  ordering: "my_profiles/czbiohub/ordering.tsv"
 
 
 # Subsampling logic
@@ -172,7 +172,7 @@ subsampling:
         focus: "country" 
 
 # if different exposure traits should be used for some builds, specify here
-# otherwise the default exposure in config/config.yaml will used
+# otherwise the default exposure in defaults/parameters.yaml will used
 exposure:
   global:
     trait: "country"
@@ -187,7 +187,7 @@ exposure:
     exposure: "division_exposure"
 
 # if different traits should be reconstructed for some builds, specify here
-# otherwise the default trait config in config/config.yaml will used
+# otherwise the default trait config in defaults/parameters.yaml will used
 traits:
   california:
     sampling_bias_correction: 2.5

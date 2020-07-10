@@ -13,10 +13,10 @@ builds:
     title: "COVID Tracker CA"
 
 files:
-  lat_longs: "profiles/cadph/lat_longs.tsv"
-  ordering: "profiles/cadph/ordering.tsv"
-  description: "profiles/cadph/covidtrackerca.md"
-  auspice_config: "profiles/cadph/cadph_auspice_config.json"
+  lat_longs: "my_profiles/cadph/lat_longs.tsv"
+  ordering: "my_profiles/cadph/ordering.tsv"
+  description: "my_profiles/cadph/covidtrackerca.md"
+  auspice_config: "my_profiles/cadph/cadph_auspice_config.json"
 
 # Subsampling logic
 subsampling:
