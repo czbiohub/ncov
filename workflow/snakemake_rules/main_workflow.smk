@@ -28,6 +28,20 @@ rule download:
         config["sequences"]
 
 
+rule install_time:
+    message:
+        """
+        Install a sane version of time
+        """
+    output:
+        time = "results/testing_time.output"
+    shell:
+        """
+        apk add time --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+        /usr/bin/time ls > {output.time}
+        """
+
+
 rule excluded_sequences:
     message:
         """
@@ -36,7 +50,8 @@ rule excluded_sequences:
     input:
         sequences = config["sequences"],
         metadata = config["metadata"],
-        include = config["files"]["exclude"]
+        include = config["files"]["exclude"],
+        time = rules.install_time.output.time
     output:
         sequences = "results/excluded.fasta"
     log:
@@ -44,7 +59,7 @@ rule excluded_sequences:
     conda: config["conda_environment"]
     shell:
         """
-        augur filter \
+        /usr/bin/time augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
 	    --min-length 50000 \
@@ -60,7 +75,8 @@ rule align_excluded:
         """
     input:
         sequences = rules.excluded_sequences.output.sequences,
-        reference = config["files"]["reference"]
+        reference = config["files"]["reference"],
+        time = rules.install_time.output.time
     output:
         alignment = "results/excluded_alignment.fasta"
     log:
@@ -69,7 +85,7 @@ rule align_excluded:
     conda: config["conda_environment"]
     shell:
         """
-        augur align \
+        /usr/bin/time augur align \
             --sequences {input.sequences} \
             --reference-sequence {input.reference} \
             --output {output.alignment} \
@@ -82,7 +98,8 @@ rule diagnose_excluded:
     input:
         alignment = rules.align_excluded.output.alignment,
         metadata = config["metadata"],
-        reference = config["files"]["reference"]
+        reference = config["files"]["reference"],
+        time = rules.install_time.output.time
     output:
         diagnostics = "results/excluded-sequence-diagnostics.tsv",
         flagged = "results/excluded-flagged-sequences.tsv",
@@ -95,7 +112,7 @@ rule diagnose_excluded:
     conda: config["conda_environment"]
     shell:
         """
-        python3 scripts/diagnostic.py \
+        /usr/bin/time python3 scripts/diagnostic.py \
             --alignment {input.alignment} \
             --metadata {input.metadata} \
             --reference {input.reference} \
@@ -114,6 +131,7 @@ rule prefilter:
     input:
         sequences = config["sequences"],
         metadata = config["metadata"],
+        time = rules.install_time.output.time
     output:
         sequences = "results/prefiltered.fasta"
     log:
@@ -123,7 +141,7 @@ rule prefilter:
     conda: config["conda_environment"]
     shell:
         """
-        augur filter \
+        /usr/bin/time augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --min-length {params.min_length} \
@@ -138,7 +156,8 @@ rule align:
         """
     input:
         sequences = "results/prefiltered.fasta",
-        reference = config["files"]["alignment_reference"]
+        reference = config["files"]["alignment_reference"],
+        time = rules.install_time.output.time
     output:
         alignment = "results/aligned.fasta"
     log:
@@ -149,7 +168,7 @@ rule align:
     conda: config["conda_environment"]
     shell:
         """
-        mafft \
+        /usr/bin/time mafft \
             --auto \
             --thread {threads} \
             --keeplength \
@@ -167,7 +186,8 @@ rule diagnostic:
     output:
         diagnostics = "results/sequence-diagnostics.tsv",
         flagged = "results/flagged-sequences.tsv",
-        to_exclude = "results/to-exclude.txt"
+        to_exclude = "results/to-exclude.txt",
+        time = rules.install_time.output.time
     log:
         "logs/diagnostics.txt"
     params:
@@ -176,7 +196,7 @@ rule diagnostic:
     conda: config["conda_environment"]
     shell:
         """
-        python3 scripts/diagnostic.py \
+        /usr/bin/time python3 scripts/diagnostic.py \
             --alignment {input.alignment} \
             --metadata {input.metadata} \
             --reference {input.reference} \
@@ -195,7 +215,8 @@ rule refilter:
     input:
         sequences = "results/aligned.fasta",
         metadata = config["metadata"],
-        exclude = "results/to-exclude.txt"
+        exclude = "results/to-exclude.txt",
+        time = rules.install_time.output.time
     output:
         sequences = "results/aligned-filtered.fasta"
     log:
@@ -203,7 +224,7 @@ rule refilter:
     conda: config["conda_environment"]
     shell:
         """
-        augur filter \
+        /usr/bin/time augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --exclude {input.exclude} \
@@ -219,7 +240,8 @@ rule mask:
           - masking other sites: {params.mask_sites}
         """
     input:
-        alignment = "results/aligned-filtered.fasta"
+        alignment = "results/aligned-filtered.fasta",
+        time = rules.install_time.output.time
     output:
         alignment = "results/masked.fasta"
     log:
@@ -231,7 +253,7 @@ rule mask:
     conda: config["conda_environment"]
     shell:
         """
-        python3 scripts/mask-alignment.py \
+        /usr/bin/time python3 scripts/mask-alignment.py \
             --alignment {input.alignment} \
             --mask-from-beginning {params.mask_from_beginning} \
             --mask-from-end {params.mask_from_end} \
@@ -250,7 +272,8 @@ rule filter:
         sequences = "results/masked.fasta",
         metadata = config["metadata"],
         include = config["files"]["include"],
-        exclude = config["files"]["exclude"]
+        exclude = config["files"]["exclude"],
+        time = rules.install_time.output.time
     output:
         sequences = "results/filtered.fasta"
     log:
@@ -263,7 +286,7 @@ rule filter:
     conda: config["conda_environment"]
     shell:
         """
-        augur filter \
+        /usr/bin/time augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --include {input.include} \
@@ -372,7 +395,8 @@ rule subsample:
         metadata = config["metadata"],
         include = config["files"]["include"],
         priorities = get_priorities,
-        exclude = config["files"]["exclude"]
+        exclude = config["files"]["exclude"],
+        time = rules.install_time.output.time
     output:
         sequences = "results/{build_name}/sample-{subsample}.fasta"
     log:
@@ -390,7 +414,7 @@ rule subsample:
     conda: config["conda_environment"]
     shell:
         """
-        augur filter \
+        /usr/bin/time augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --include {input.include} \
@@ -468,7 +492,8 @@ rule adjust_metadata_regions:
         Adjusting metadata for build '{wildcards.build_name}'
         """
     input:
-        metadata = config["metadata"]
+        metadata = config["metadata"],
+        time = rules.install_time.output.time
     output:
         metadata = "results/{build_name}/metadata_adjusted.tsv"
     params:
@@ -478,7 +503,7 @@ rule adjust_metadata_regions:
     conda: config["conda_environment"]
     shell:
         """
-        python3 scripts/adjust_regional_meta.py \
+        /usr/bin/time python3 scripts/adjust_regional_meta.py \
             --region {params.region:q} \
             --metadata {input.metadata} \
             --output {output.metadata} 2>&1 | tee {log}
@@ -487,7 +512,8 @@ rule adjust_metadata_regions:
 rule tree:
     message: "Building tree"
     input:
-        alignment = rules.combine_samples.output.alignment
+        alignment = rules.combine_samples.output.alignment,
+        time = rules.install_time.output.time
     output:
         tree = "results/{build_name}/tree_raw.nwk"
     params:
@@ -505,7 +531,7 @@ rule tree:
     conda: config["conda_environment"]
     shell:
         """
-        augur tree \
+        /usr/bin/time /usr/bin/time augur tree \
             --alignment {input.alignment} \
             --tree-builder-args {params.args} \
             --output {output.tree} \
@@ -523,7 +549,8 @@ rule refine:
     input:
         tree = rules.tree.output.tree,
         alignment = rules.combine_samples.output.alignment,
-        metadata = _get_metadata_by_wildcards
+        metadata = _get_metadata_by_wildcards,
+        time = rules.install_time.output.time
     output:
         tree = "results/{build_name}/tree.nwk",
         node_data = "results/{build_name}/branch_lengths.json"
@@ -550,7 +577,7 @@ rule refine:
     conda: config["conda_environment"]
     shell:
         """
-        augur refine \
+        /usr/bin/time augur refine \
             --tree {input.tree} \
             --alignment {input.alignment} \
             --metadata {input.metadata} \
@@ -577,7 +604,8 @@ rule ancestral:
         """
     input:
         tree = rules.refine.output.tree,
-        alignment = rules.combine_samples.output.alignment
+        alignment = rules.combine_samples.output.alignment,
+        time = rules.install_time.output.time
     output:
         node_data = "results/{build_name}/nt_muts.json"
     log:
@@ -587,7 +615,7 @@ rule ancestral:
     conda: config["conda_environment"]
     shell:
         """
-        augur ancestral \
+        /usr/bin/time augur ancestral \
             --tree {input.tree} \
             --alignment {input.alignment} \
             --output-node-data {output.node_data} \
